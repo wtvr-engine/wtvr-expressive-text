@@ -6,8 +6,8 @@ let elementStyle = `
     color : rgba(0,0,0,0)
 }
 @keyframes wavy {
-    from {bottom: 0em;}
-    to {bottom: 0.2em;}
+    from {bottom: -0.1em;}
+    to {bottom: 0.1em;}
 }
 
 .wavy {
