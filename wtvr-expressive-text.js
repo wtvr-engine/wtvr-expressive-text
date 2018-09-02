@@ -72,7 +72,7 @@ export default class WTVRExpressiveText extends WTVRElement {
         this.timeSinceLastLetter = 0;
         this.sections = [];
         this.nextInterval = 1;
-        this.getNumberAttribute("interval",30);
+        this.getNumberAttribute("interval",20);
         this.getNumberAttribute("delay",0);
         let originalNode = WTVRElement.createElement(elementStyle);
         let children = document.createDocumentFragment();
@@ -148,15 +148,15 @@ export default class WTVRExpressiveText extends WTVRElement {
     getLetterMultiplicator(letter){
       switch(letter){
         case ' ':
-        return 1.5;
+        return 1.8;
         case ',':
-        return 5;
+        return 10;
         case '.':
         case '!':
         case '?':
-        return 17;
+        return 30;
         case ';':
-        return 15;
+        return 17;
         default:
         return 1;
       }
@@ -188,6 +188,6 @@ export default class WTVRExpressiveText extends WTVRElement {
     spookyLetter(letter,section){
       let randomDelay = -Math.random();
       let randomDuration = (Math.random()*0.07 +0.15);
-      return WTVRElement.createElement(`<span class="spooky" style="animation-delay : ${randomDelay}s; animation-duration : ${randomDuration}s">${letter}</span>`);
+      return WTVRElement.createElement(`<span class="spooky" style="animation-delay : ${randomDelay}s; animation-duration : ${randomDuration}s;">${letter}</span>`);
     }
 }
