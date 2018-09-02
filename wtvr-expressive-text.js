@@ -61,9 +61,7 @@ let elementStyle = html`
   animation : spooky 0.15s steps(4,start) 0s infinite alternate, spooky-horizontal 0.1s steps(4,end) 0s infinite alternate;
 }
 .yelling {
-  position : relative;
   text-transform: uppercase;
-  animation : spooky 0.15s steps(4,start) 0s infinite alternate, spooky-horizontal 0.1s steps(4,end) 0s infinite alternate;
 }
 </style>`;
 
@@ -199,6 +197,6 @@ export default class WTVRExpressiveText extends WTVRElement {
     }
     yellingLetter(letter,section){
       let randomDelay = -Math.random();
-      return WTVRElement.createElement(`<span class="yelling" style="animation-delay : ${randomDelay}s;">${letter}</span>`);
+      return WTVRElement.createElement(`<span class="spooky yelling" style="animation-delay : ${randomDelay}s;">${letter}</span>`);
     }
 }
