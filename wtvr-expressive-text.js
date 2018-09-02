@@ -1,6 +1,7 @@
 import WTVRElement from "./node_modules/wtvr-element/wtvr-element.js";
+let html = WTVRElement.createTemplate;
 
-let elementStyle = `
+let elementStyle = html`
 <style>
 .invisible {
     color : rgba(0,0,0,0)
@@ -20,7 +21,7 @@ let elementStyle = `
 }
 </style>`;
 
-let coreTemplate = `<span class="visible"></span><span class="invisible"></span>`
+let coreTemplate = html`<span class="visible"></span><span class="invisible"></span>`
 
 export default class WTVRExpressiveText extends WTVRElement {
     constructor(){
