@@ -4,8 +4,20 @@
 <title>WTVR Expressive text example</title>
 </head>
 <body>
+  <style>
+  body{
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  wtvr-expressive-text {
+    display : block;
+    margin: auto;
+    width: 700px;
+    max-width : 100%;
+    margin-top : 2em;
+  }
+  </style>
     <wtvr-expressive-text auto>
-      <p>Here is some progressive text using <code>wtvr-expressive-text</code>; Its rhythm depends on punctuation.</p>
+      <p>Here is some progressive text using <code>wtvr-expressive-text</code>; its rhythm depends on punctuation.</p>
       <p>You can style it using regular css and make it <span style="font-style: italic">italic</span>, <span style="font-size : 1.3em">big</span>, or <span style="font-size : 0.7em">small</span>, or even <span style="color : green">green</span>.</p>
       <p>You can also make it <span data-letter-effect="wavy">awesome</span>, or you can make it <span data-letter-effect="spooky">spooky</span>, or would you rather have it <span data-letter-effect="wavy-rainbow">fabulous?</span></p>
     </wtvr-expressive-text>
