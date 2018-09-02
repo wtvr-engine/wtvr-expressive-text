@@ -10,6 +10,33 @@ let elementStyle = html`
     from {bottom: -0.1em;}
     to {bottom: 0.1em;}
 }
+@keyframes spooky {
+    from {bottom: -0.07em;}
+    to {bottom: 0.07em;}
+}
+@keyframes rainbow {
+    from {
+        color: #e50000;
+    }
+    16.6% {
+        color: #ff8d00;
+    }
+    33.3% {
+        color: #f7d21b;
+    }
+    50% {
+        color: #008121;
+    }
+    66.6% {
+        color: #004cff
+    }
+    83.3% {
+        color: #760188;
+    }
+    to {
+        color: #e50000;
+    }
+}
 
 .wavy {
   position: relative;
@@ -17,6 +44,19 @@ let elementStyle = html`
   animation-iteration-count: infinite;
   animation-direction : alternate;
   animation-duration: 0.25s;
+  animation-timing-function: ease-in-out;
+}
+
+.wavy-rainbow {
+  position: relative;
+  animation : wavy 0.25s ease-in-out 0s infinite alternate, rainbow 1.5s linear 0s infinite;
+}
+
+.spooky {
+  position : relative;
+  animation-name : spooky;
+  animation-iteration-count: infinite;
+  animation-direction : alternate;
   animation-timing-function: ease-in-out;
 }
 </style>`;
@@ -71,9 +111,7 @@ export default class WTVRExpressiveText extends WTVRElement {
                 section.visible.innerHTML += letter;
               }
               else{
-                let localIndex = (this.currentIndex -section.start);
-                let letterEffectDelay = localIndex*0.05 - localIndex*this.interval*0.001;
-                section.visible.appendChild(WTVRElement.createElement(`<span class="${section.letterEffect}" style="animation-delay : ${letterEffectDelay}s">${letter}</span>`));
+                section.visible.appendChild(this.handleLetterEffect(letter,section));
               }
 
               this.timeSinceLastLetter = 0;
@@ -116,11 +154,40 @@ export default class WTVRExpressiveText extends WTVRElement {
         case '.':
         case '!':
         case '?':
-        return 10;
+        return 17;
         case ';':
         return 15;
         default:
         return 1;
       }
+    }
+
+    handleLetterEffect(letter,section){
+      switch(section.letterEffect){
+        case 'wavy':
+        return this.wavyLetter(letter,section);
+        case 'spooky':
+        return this.spookyLetter(letter,section);
+        case 'wavy-rainbow':
+        return this.wavyRainbowLetter(letter,section);
+        default:
+        return WTVRElement.createElement(`<span class="${section.letterEffect}">${letter}</span>`);
+      }
+    }
+
+    wavyLetter(letter,section){
+      let localIndex = (this.currentIndex -section.start);
+      let letterEffectDelay = localIndex*0.05 - localIndex*this.interval*0.001;
+      return WTVRElement.createElement(`<span class="wavy" style="animation-delay : ${letterEffectDelay}s">${letter}</span>`);
+    }
+    wavyRainbowLetter(letter,section){
+      let localIndex = (this.currentIndex -section.start);
+      let letterEffectDelay = localIndex*0.05 - localIndex*this.interval*0.001;
+      return WTVRElement.createElement(`<span class="wavy-rainbow" style="animation-delay : ${letterEffectDelay}s">${letter}</span>`);
+    }
+    spookyLetter(letter,section){
+      let randomDelay = -Math.random();
+      let randomDuration = (Math.random()*0.07 +0.15);
+      return WTVRElement.createElement(`<span class="spooky" style="animation-delay : ${randomDelay}s; animation-duration : ${randomDuration}s">${letter}</span>`);
     }
 }
