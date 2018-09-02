@@ -11,8 +11,12 @@ let elementStyle = html`
     to {bottom: 0.1em;}
 }
 @keyframes spooky {
-    from {bottom: -0.07em;}
-    to {bottom: 0.07em;}
+    from {bottom: -0.04em;}
+    to {bottom: 0.04em;}
+}
+@keyframes spooky-horizontal {
+    from {left: -0.03em;}
+    to {left: 0.03em;}
 }
 @keyframes rainbow {
     from {
@@ -54,10 +58,12 @@ let elementStyle = html`
 
 .spooky {
   position : relative;
-  animation-name : spooky;
-  animation-iteration-count: infinite;
-  animation-direction : alternate;
-  animation-timing-function: ease-in-out;
+  animation : spooky 0.15s steps(4,start) 0s infinite alternate, spooky-horizontal 0.1s steps(4,end) 0s infinite alternate;
+}
+.yelling {
+  position : relative;
+  text-transform: uppercase;
+  animation : spooky 0.15s steps(4,start) 0s infinite alternate, spooky-horizontal 0.1s steps(4,end) 0s infinite alternate;
 }
 </style>`;
 
@@ -170,6 +176,8 @@ export default class WTVRExpressiveText extends WTVRElement {
         return this.spookyLetter(letter,section);
         case 'wavy-rainbow':
         return this.wavyRainbowLetter(letter,section);
+        case 'yelling':
+        return this.yellingLetter(letter,section);
         default:
         return WTVRElement.createElement(`<span class="${section.letterEffect}">${letter}</span>`);
       }
@@ -183,11 +191,14 @@ export default class WTVRExpressiveText extends WTVRElement {
     wavyRainbowLetter(letter,section){
       let localIndex = (this.currentIndex -section.start);
       let letterEffectDelay = localIndex*0.05 - localIndex*this.interval*0.001;
-      return WTVRElement.createElement(`<span class="wavy-rainbow" style="animation-delay : ${letterEffectDelay}s">${letter}</span>`);
+      return WTVRElement.createElement(`<span class="wavy-rainbow" style="animation-delay : ${letterEffectDelay}s;">${letter}</span>`);
     }
     spookyLetter(letter,section){
       let randomDelay = -Math.random();
-      let randomDuration = (Math.random()*0.07 +0.15);
-      return WTVRElement.createElement(`<span class="spooky" style="animation-delay : ${randomDelay}s; animation-duration : ${randomDuration}s;">${letter}</span>`);
+      return WTVRElement.createElement(`<span class="spooky" style="animation-delay : ${randomDelay}s;">${letter}</span>`);
+    }
+    yellingLetter(letter,section){
+      let randomDelay = -Math.random();
+      return WTVRElement.createElement(`<span class="yelling" style="animation-delay : ${randomDelay}s;">${letter}</span>`);
     }
 }
