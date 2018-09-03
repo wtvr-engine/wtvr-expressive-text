@@ -119,12 +119,12 @@ export default class WTVRExpressiveText extends WTVRElement {
         this.timeSinceLastLetter += deltaTime;
         this.sections.forEach((section) => {
           if(this.currentIndex >= section.start && this.currentIndex < section.end){
-            let letter = section.invisible.innerText[0];
+            let letter = section.invisible.textContent[0];
             if(this.timeSinceLastLetter > this.nextInterval*this.interval){
-              section.invisible.innerHTML = section.invisible.innerText.substring(1);
+              section.invisible.textContent = section.invisible.textContent.substring(1);
 
               if(section.letterEffect == ""){
-                section.visible.innerHTML += letter;
+                section.visible.textContent += letter;
               }
               else{
                 section.visible.appendChild(this.handleLetterEffect(letter,section));
@@ -150,14 +150,18 @@ export default class WTVRExpressiveText extends WTVRElement {
         let letterEffect = "";
         if(elem.parentNode.hasAttribute("data-letter-effect")){
           letterEffect = elem.parentNode.getAttribute("data-letter-effect");
+
+          // since letters are  in separate inline-block spans, need to emulate proper word wrapping
           let words = elem.textContent.split(" ");
           words.forEach((word,i) => {
             if(word.length == 0){
               return;
             }
             let section = this.getSectionFor(word + (i == words.length -1 ? "" : " "),letterEffect);
-            elem.parentNode.insertBefore(section.newContent,elem);
-            section.visible.classList += " inline-block";
+            let wordSpan = document.createElement('span');
+            wordSpan.appendChild(section.newContent);
+            elem.parentNode.insertBefore(wordSpan,elem);
+            wordSpan.classList += " inline-block";
             this.sections.push(section);
           });
           elem.parentNode.removeChild(elem);
