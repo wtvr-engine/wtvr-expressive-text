@@ -7,16 +7,16 @@ let elementStyle = html`
     color : rgba(0,0,0,0)
 }
 @keyframes wavy {
-    from {bottom: -0.1em;}
-    to {bottom: 0.1em;}
+    from {transform: translateY(-0.1em);}
+    to {transform: translateY(0.1em);}
 }
 @keyframes spooky {
-    from {bottom: -0.04em;}
-    to {bottom: 0.04em;}
+    from {transform: translateY(-0.05em);}
+    to {transform: translateY(0.05em);}
 }
 @keyframes spooky-horizontal {
-    from {left: -0.03em;}
-    to {left: 0.03em;}
+    from {transform: translateX(-0.05em);}
+    to {transform: translateX(0.05em);}
 }
 @keyframes rainbow {
     from {
@@ -43,22 +43,31 @@ let elementStyle = html`
 }
 
 .wavy {
-  position: relative;
+  display: inline-block;
   animation-name : wavy;
   animation-iteration-count: infinite;
   animation-direction : alternate;
   animation-duration: 0.25s;
   animation-timing-function: ease-in-out;
+  white-space: pre-wrap;
 }
 
 .wavy-rainbow {
-  position: relative;
+  display: inline-block;
+  white-space: pre-wrap;
   animation : wavy 0.25s ease-in-out 0s infinite alternate, rainbow 1.5s linear 0s infinite;
 }
 
 .spooky {
-  position : relative;
-  animation : spooky 0.15s steps(4,start) 0s infinite alternate, spooky-horizontal 0.1s steps(4,end) 0s infinite alternate;
+  display: inline-block;
+  white-space: pre-wrap;
+  animation : spooky 0.1s steps(4,end) 0s infinite alternate;
+}
+
+.spooky-horizontal {
+  display: inline-block;
+  white-space: pre-wrap;
+  animation : spooky-horizontal 0.1s steps(4,end) 0s infinite alternate;
 }
 .yelling {
   text-transform: uppercase;
@@ -193,10 +202,10 @@ export default class WTVRExpressiveText extends WTVRElement {
     }
     spookyLetter(letter,section){
       let randomDelay = -Math.random();
-      return WTVRElement.createElement(`<span class="spooky" style="animation-delay : ${randomDelay}s;">${letter}</span>`);
+      return WTVRElement.createElement(`<span class="spooky-horizontal"><span class="spooky" style="animation-delay : ${randomDelay}s;">${letter}</span></span>`);
     }
     yellingLetter(letter,section){
       let randomDelay = -Math.random();
-      return WTVRElement.createElement(`<span class="spooky yelling" style="animation-delay : ${randomDelay}s;">${letter}</span>`);
+      return WTVRElement.createElement(`<span class="spooky-horizontal"><span class="spooky yelling" style="animation-delay : ${randomDelay}s;">${letter}</span></span>`);
     }
 }
