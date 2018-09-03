@@ -61,13 +61,13 @@ let elementStyle = html`
 .spooky {
   display: inline-block;
   white-space: pre-wrap;
-  animation : spooky 0.1s steps(4,end) 0s infinite alternate;
+  animation : spooky 0.17s steps(4,end) 0s infinite alternate;
 }
 
 .spooky-horizontal {
   display: inline-block;
   white-space: pre-wrap;
-  animation : spooky-horizontal 0.1s steps(4,end) 0s infinite alternate;
+  animation : spooky-horizontal 0.12s steps(4,end) 0s infinite alternate;
 }
 .yelling {
   text-transform: uppercase;
