@@ -11,12 +11,12 @@ let elementStyle = html`
     to {transform: translateY(0.1em);}
 }
 @keyframes spooky {
-    from {transform: translateY(-0.05em);}
-    to {transform: translateY(0.05em);}
+    from {transform: translateY(-0.04em);}
+    to {transform: translateY(0.04em);}
 }
 @keyframes spooky-horizontal {
-    from {transform: translateX(-0.05em);}
-    to {transform: translateX(0.05em);}
+    from {transform: translateX(-0.04em);}
+    to {transform: translateX(0.04em);}
 }
 @keyframes rainbow {
     from {
@@ -61,13 +61,13 @@ let elementStyle = html`
 .spooky {
   display: inline-block;
   white-space: pre-wrap;
-  animation : spooky 0.17s steps(4,end) 0s infinite alternate;
+  animation : spooky 0.17s steps(2,end) 0s infinite alternate;
 }
 
 .spooky-horizontal {
   display: inline-block;
   white-space: pre-wrap;
-  animation : spooky-horizontal 0.12s steps(4,end) 0s infinite alternate;
+  animation : spooky-horizontal 0.12s steps(2,end) 0s infinite alternate;
 }
 .yelling {
   text-transform: uppercase;
@@ -148,6 +148,7 @@ export default class WTVRExpressiveText extends WTVRElement {
         let letterEffect = "";
         if(elem.parentNode.hasAttribute("data-letter-effect")){
           letterEffect = elem.parentNode.getAttribute("data-letter-effect");
+          newContent.children[0].style.display = "inline-block";
         }
         let section = { start : this.parsingIndex, end : this.parsingIndex + elem.length, visible : newContent.children[0], invisible: newContent.children[1], letterEffect : letterEffect};
         section.invisible.innerHTML = elem.data;
