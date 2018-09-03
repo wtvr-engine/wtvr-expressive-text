@@ -6,6 +6,9 @@ let elementStyle = html`
 .invisible {
     color : rgba(0,0,0,0)
 }
+.inline-block {
+  display: inline-block;
+}
 @keyframes wavy {
     from {transform: translateY(-0.1em);}
     to {transform: translateY(0.1em);}
@@ -116,9 +119,9 @@ export default class WTVRExpressiveText extends WTVRElement {
         this.timeSinceLastLetter += deltaTime;
         this.sections.forEach((section) => {
           if(this.currentIndex >= section.start && this.currentIndex < section.end){
-            let letter = section.invisible.textContent[0];
+            let letter = section.invisible.innerText[0];
             if(this.timeSinceLastLetter > this.nextInterval*this.interval){
-              section.invisible.innerHTML = section.invisible.innerHTML.substring(1);
+              section.invisible.innerHTML = section.invisible.innerText.substring(1);
 
               if(section.letterEffect == ""){
                 section.visible.innerHTML += letter;
@@ -126,14 +129,13 @@ export default class WTVRExpressiveText extends WTVRElement {
               else{
                 section.visible.appendChild(this.handleLetterEffect(letter,section));
               }
-
               this.timeSinceLastLetter = 0;
               this.currentIndex ++;
               this.nextInterval = this.getLetterMultiplicator(letter);
             }
 
           }
-        })
+        });
     }
 
     indexText(elem){
@@ -144,19 +146,42 @@ export default class WTVRExpressiveText extends WTVRElement {
         }
       }
       else if(elem.nodeType == Node.TEXT_NODE && elem.data.trim().length > 0){
-        let newContent = WTVRElement.createElement(coreTemplate);
+
         let letterEffect = "";
         if(elem.parentNode.hasAttribute("data-letter-effect")){
           letterEffect = elem.parentNode.getAttribute("data-letter-effect");
-          newContent.children[0].style.display = "inline-block";
+          let words = elem.textContent.split(" ");
+          words.forEach((word,i) => {
+            if(word.length == 0){
+              return;
+            }
+            let section = this.getSectionFor(word + (i == words.length -1 ? "" : " "),letterEffect);
+            elem.parentNode.insertBefore(section.newContent,elem);
+            section.visible.classList += " inline-block";
+            this.sections.push(section);
+          });
+          elem.parentNode.removeChild(elem);
+          //todo do one section per word + space and make it inline-block.
         }
-        let section = { start : this.parsingIndex, end : this.parsingIndex + elem.length, visible : newContent.children[0], invisible: newContent.children[1], letterEffect : letterEffect};
-        section.invisible.innerHTML = elem.data;
-        this.parsingIndex += elem.length;
-        elem.parentNode.insertBefore(newContent,elem);
-        elem.parentNode.removeChild(elem);
-        this.sections.push(section);
+        else{
+          let section = this.getSectionFor(elem.textContent,letterEffect);
+          elem.parentNode.insertBefore(section.newContent,elem);
+          elem.parentNode.removeChild(elem);
+          this.sections.push(section);
+        }
+
       }
+    }
+
+    getSectionFor(content,letterEffect){
+      let newContent = WTVRElement.createElement(coreTemplate);
+      let length = content.length;
+      let section = { start : this.parsingIndex, end : this.parsingIndex + length, newContent : newContent, visible : newContent.children[0], invisible: newContent.children[1], letterEffect : letterEffect};
+      section.invisible.textContent = content;
+      this.parsingIndex += length;
+
+      return section;
+
     }
 
     getLetterMultiplicator(letter){
