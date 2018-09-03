@@ -161,7 +161,6 @@ export default class WTVRExpressiveText extends WTVRElement {
             this.sections.push(section);
           });
           elem.parentNode.removeChild(elem);
-          //todo do one section per word + space and make it inline-block.
         }
         else{
           let section = this.getSectionFor(elem.textContent,letterEffect);
