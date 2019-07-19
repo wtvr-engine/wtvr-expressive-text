@@ -120,6 +120,12 @@ export default class WTVRExpressiveText extends WTVRElement {
         this.timeSinceLastLetter += deltaTime;
         this.sections.forEach((section) => {
           if(this.currentIndex >= section.start && this.currentIndex < section.end){
+            if(section.pause && section.pause > 0){
+              this.timeSinceLastLetter = 0;
+              this.currentIndex ++;
+              this.nextInterval = section.pause*1000/this.interval;
+              return;
+            }
             let letter = section.invisible.textContent[0];
             if(this.timeSinceLastLetter > this.nextInterval*this.interval){
               section.invisible.textContent = section.invisible.textContent.substring(1);
@@ -143,6 +149,12 @@ export default class WTVRExpressiveText extends WTVRElement {
     }
 
     indexText(elem){
+      if(elem instanceof HTMLElement && elem.hasAttribute("data-pause")){
+        let section = { start : this.parsingIndex, end : this.parsingIndex + 1, pause : Number(elem.getAttribute("data-pause"))};
+        this.parsingIndex += 1;
+        this.sections.push(section);
+        return;
+      }
       if(elem.hasChildNodes() && elem.tagName && elem.tagName.toLowerCase() !== "style" && elem.tagName.toLowerCase() !== "script"){
         let children = Array.from(elem.childNodes);
         for(let i = 0; i < children.length; i++){
