@@ -132,7 +132,10 @@ export default class WTVRExpressiveText extends WTVRElement {
               }
               this.timeSinceLastLetter = 0;
               this.currentIndex ++;
-              this.nextInterval = this.getLetterMultiplicator(letter)*18/this.interval;
+              this.nextInterval = this.getLetterMultiplicator(letter);
+              if (this.nextInterval != 1){
+                this.nextInterval *= 18/this.interval;
+              }
             }
 
           }
