@@ -78,7 +78,6 @@ let elementStyle = html`
 </style>`;
 
 let coreTemplate = html`<span class="visible"></span><span class="invisible"></span>`
-console.log(coreTemplate);
 
 export default class WTVRExpressiveText extends WTVRElement {
     constructor(){
