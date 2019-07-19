@@ -78,6 +78,7 @@ let elementStyle = html`
 </style>`;
 
 let coreTemplate = html`<span class="visible"></span><span class="invisible"></span>`
+console.log(coreTemplate);
 
 export default class WTVRExpressiveText extends WTVRElement {
     constructor(){
@@ -88,7 +89,7 @@ export default class WTVRExpressiveText extends WTVRElement {
         this.timeSinceLastLetter = 0;
         this.sections = [];
         this.nextInterval = 1;
-        this.getNumberAttribute("interval",20);
+        this.getNumberAttribute("interval",18);
         this.getNumberAttribute("delay",0);
         let originalNode = WTVRElement.createElement(elementStyle);
         let children = document.createDocumentFragment();
@@ -131,7 +132,7 @@ export default class WTVRExpressiveText extends WTVRElement {
               }
               this.timeSinceLastLetter = 0;
               this.currentIndex ++;
-              this.nextInterval = this.getLetterMultiplicator(letter);
+              this.nextInterval = this.getLetterMultiplicator(letter)*18/this.interval;
             }
 
           }
@@ -190,15 +191,15 @@ export default class WTVRExpressiveText extends WTVRElement {
     getLetterMultiplicator(letter){
       switch(letter){
         case ' ':
-        return 1.8;
+        return 2;
         case ',':
-        return 10;
+        return 12;
         case '.':
         case '!':
         case '?':
-        return 30;
+        return 35;
         case ';':
-        return 17;
+        return 19;
         default:
         return 1;
       }
