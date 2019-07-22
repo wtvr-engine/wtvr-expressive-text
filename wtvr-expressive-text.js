@@ -242,12 +242,12 @@ export default class WTVRExpressiveText extends WTVRElement {
 
     wavyLetter(letter,section){
       let localIndex = (this.currentIndex -section.start);
-      let letterEffectDelay = localIndex*0.05 - localIndex*this.interval*0.001 + (this.rushing ? this.interval*0.001 : 0);
+      let letterEffectDelay = localIndex*0.05 - (this.rushing? 0 :localIndex*this.interval*0.001);
       return WTVRElement.createElement(`<span class="wavy" style="animation-delay : ${letterEffectDelay}s">${letter}</span>`);
     }
     wavyRainbowLetter(letter,section){
       let localIndex = (this.currentIndex -section.start);
-      let letterEffectDelay = localIndex*0.05 - localIndex*this.interval*0.001 + (this.rushing ? this.interval*0.001 : 0);
+      let letterEffectDelay = localIndex*0.05 - (this.rushing? 0 : localIndex*this.interval*0.001);
       return WTVRElement.createElement(`<span class="wavy-rainbow" style="animation-delay : ${letterEffectDelay}s;">${letter}</span>`);
     }
     spookyLetter(letter,section){
