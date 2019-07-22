@@ -3,6 +3,15 @@ let html = WTVRElement.createTemplate;
 
 let elementStyle = html`
 <style>
+
+:root {
+  --specialColor: #008121;
+}
+
+.special {
+  color : var(--specialColor);
+}
+
 .invisible {
     color : rgba(0,0,0,0)
 }
