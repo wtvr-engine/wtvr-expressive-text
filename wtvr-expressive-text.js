@@ -137,7 +137,7 @@ export default class WTVRExpressiveText extends WTVRElement {
               }
               this.timeSinceLastLetter = 0;
               this.currentIndex ++;
-              this.nextInterval = this.getLetterMultiplicator(letter);
+              this.nextInterval = this.getLetterMultiplicator(letter)*(1/section.speed);
               if (this.nextInterval != 1){
                 this.nextInterval *= 18/this.interval;
               }
@@ -163,6 +163,10 @@ export default class WTVRExpressiveText extends WTVRElement {
       else if(elem.nodeType == Node.TEXT_NODE && elem.data.trim().length > 0){
 
         let letterEffect = "";
+        let speed = 1;
+        if(elem.parentNode.hasAttribute("data-speed")){
+          speed = Number(elem.parentNode.getAttribute("data-speed"));
+        }
         if(elem.parentNode.hasAttribute("data-letter-effect")){
           letterEffect = elem.parentNode.getAttribute("data-letter-effect");
 
@@ -172,7 +176,7 @@ export default class WTVRExpressiveText extends WTVRElement {
             if(word.length == 0){
               return;
             }
-            let section = this.getSectionFor(word + (i == words.length -1 ? "" : " "),letterEffect);
+            let section = this.getSectionFor(word + (i == words.length -1 ? "" : " "),letterEffect,speed);
             let wordSpan = document.createElement('span');
             wordSpan.appendChild(section.newContent);
             elem.parentNode.insertBefore(wordSpan,elem);
@@ -191,10 +195,11 @@ export default class WTVRExpressiveText extends WTVRElement {
       }
     }
 
-    getSectionFor(content,letterEffect){
+    getSectionFor(content,letterEffect,speed){
+      speed = speed || 1;
       let newContent = WTVRElement.createElement(coreTemplate);
       let length = content.length;
-      let section = { start : this.parsingIndex, end : this.parsingIndex + length, newContent : newContent, visible : newContent.children[0], invisible: newContent.children[1], letterEffect : letterEffect};
+      let section = { start : this.parsingIndex, end : this.parsingIndex + length, newContent : newContent, visible : newContent.children[0], invisible: newContent.children[1], letterEffect : letterEffect, speed : speed};
       section.invisible.textContent = content;
       this.parsingIndex += length;
 
