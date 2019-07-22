@@ -98,6 +98,7 @@ export default class WTVRExpressiveText extends WTVRElement {
         this.sections = [];
         this.nextInterval = 1;
         this.rushing = false;
+        this.finished = false;
         this.getNumberAttribute("interval",18);
         this.getNumberAttribute("delay",0);
         let originalNode = WTVRElement.createElement(elementStyle);
@@ -120,8 +121,21 @@ export default class WTVRExpressiveText extends WTVRElement {
         super.start();
     }
 
+    onEnd(){
+      this.finished = true;
+      this.rushing = false;
+      let event = new CustomEvent("end", {detail: {}});
+      this.dispatchEvent(event);
+    }
+
     update(deltaTime){
         super.update();
+        if(this.finished){
+          return;
+        }
+        if(this.currentIndex == this.parsingIndex){
+          this.onEnd();
+        }
         if(this.totalTime < this.delay || this.currentIndex >= this.parsingIndex){
           this.totalTime += deltaTime;
           return;

@@ -39,8 +39,10 @@
     let rushButton = document.getElementById("rush");
     rushButton.addEventListener("click", () => {
       demoText.rush();
-      rushButton.style.display = "none";
     })
+    demoText.addEventListener("end", (e) => {
+      rushButton.style.display = "none";
+    });
     </script>
 </body>
 </html>
