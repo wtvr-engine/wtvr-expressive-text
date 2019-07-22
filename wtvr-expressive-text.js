@@ -88,6 +88,7 @@ export default class WTVRExpressiveText extends WTVRElement {
         this.timeSinceLastLetter = 0;
         this.sections = [];
         this.nextInterval = 1;
+        this.rushing = false;
         this.getNumberAttribute("interval",18);
         this.getNumberAttribute("delay",0);
         let originalNode = WTVRElement.createElement(elementStyle);
@@ -241,20 +242,29 @@ export default class WTVRExpressiveText extends WTVRElement {
 
     wavyLetter(letter,section){
       let localIndex = (this.currentIndex -section.start);
-      let letterEffectDelay = localIndex*0.05 - localIndex*this.interval*0.001;
+      let letterEffectDelay = localIndex*0.05 - localIndex*this.interval*0.001 + (this.rushing ? this.interval*0.001 : 0);
       return WTVRElement.createElement(`<span class="wavy" style="animation-delay : ${letterEffectDelay}s">${letter}</span>`);
     }
     wavyRainbowLetter(letter,section){
       let localIndex = (this.currentIndex -section.start);
-      let letterEffectDelay = localIndex*0.05 - localIndex*this.interval*0.001;
+      let letterEffectDelay = localIndex*0.05 - localIndex*this.interval*0.001 + (this.rushing ? this.interval*0.001 : 0);
       return WTVRElement.createElement(`<span class="wavy-rainbow" style="animation-delay : ${letterEffectDelay}s;">${letter}</span>`);
     }
     spookyLetter(letter,section){
       let randomDelay = -Math.random();
-      return WTVRElement.createElement(`<span class="spooky-horizontal"><span class="spooky" style="animation-delay : ${randomDelay}s;">${letter}</span></span>`);
+      return WTVRElement.createElement(`<span class="spooky-horizontal" style="animation-delay : ${randomDelay}s;"><span class="spooky" style="animation-delay : ${randomDelay}s;">${letter}</span></span>`);
     }
     yellingLetter(letter,section){
       let randomDelay = -Math.random();
-      return WTVRElement.createElement(`<span class="spooky-horizontal"><span class="spooky yelling" style="animation-delay : ${randomDelay}s;">${letter}</span></span>`);
+      return WTVRElement.createElement(`<span class="spooky-horizontal" style="animation-delay : ${randomDelay}s;"><span class="spooky yelling" style="animation-delay : ${randomDelay}s;">${letter}</span></span>`);
+    }
+
+    rush(){
+      this.delay = 0;
+      this.rushing = true;
+      while(this.currentIndex < this.parsingIndex){
+        this.nextInterval = -1;
+        this.update(0.2);
+      }
     }
 }
