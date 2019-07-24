@@ -50,9 +50,18 @@ let elementStyle = html`
         color: #760188;
     }
     to {
-        color: #e50000;
+      color: #e50000;
     }
-}
+  }
+  
+  @keyframes markerAnim {
+    from {
+      opacity : 0;
+    }
+    to {
+      opacity : 1;
+    }
+  }
 
 .wavy {
   display: inline-block;
@@ -84,6 +93,12 @@ let elementStyle = html`
 .yelling {
   text-transform: uppercase;
 }
+
+.marker{
+  margin-left: 0.5em;
+  font-size : 0.9em;
+  animation : markerAnim 0.8s infinite alternate ease-in-out;
+}
 </style>`;
 
 let coreTemplate = html`<span class="visible"></span><span class="invisible"></span>`
@@ -101,6 +116,7 @@ export default class WTVRExpressiveText extends WTVRElement {
         this.finished = false;
         this.getNumberAttribute("interval",18);
         this.getNumberAttribute("delay",0);
+        this.getStringAttribute("marker","&#10097;");
         let originalNode = WTVRElement.createElement(elementStyle);
         let children = document.createDocumentFragment();
         while(this.children.length > 0){
@@ -112,6 +128,7 @@ export default class WTVRExpressiveText extends WTVRElement {
     }
     connectedCallback(){
       let children = Array.from(this.shadowRoot.childNodes);
+
       for(let i = 0; i < children.length; i++){
         this.indexText(children[i]);
       }
@@ -124,6 +141,12 @@ export default class WTVRExpressiveText extends WTVRElement {
     onEnd(){
       this.finished = true;
       this.rushing = false;
+      if(this.marker != "" && this.shadowRoot.childNodes.length > 0){
+        let markerHTML = `<span class="marker">${this.marker}</span>`;
+        let marker = WTVRElement.createElement(html(markerHTML));
+        this.shadowRoot.childNodes[this.shadowRoot.childNodes.length - 1].appendChild(marker);
+      }
+
       let event = new CustomEvent("end", {detail: {}});
       this.dispatchEvent(event);
     }
