@@ -96,8 +96,11 @@ let elementStyle = html`
 
 .marker{
   margin-left: 0.5em;
-  font-size : 0.9em;
   animation : markerAnim 0.8s infinite alternate ease-in-out;
+}
+.invisible-marker{
+  margin-left: 0.5em;
+  opacity : 0;
 }
 </style>`;
 
@@ -132,6 +135,11 @@ export default class WTVRExpressiveText extends WTVRElement {
       for(let i = 0; i < children.length; i++){
         this.indexText(children[i]);
       }
+      if(this.marker != "" && this.shadowRoot.childNodes.length > 0){
+        let markerHTML = `<span class="invisible-marker">${this.marker}</span>`;
+        let marker = WTVRElement.createElement(html(markerHTML));
+        this.shadowRoot.childNodes[this.shadowRoot.childNodes.length - 1].appendChild(marker);
+      }
       super.connectedCallback();
     }
     start(){
@@ -141,11 +149,12 @@ export default class WTVRExpressiveText extends WTVRElement {
     onEnd(){
       this.finished = true;
       this.rushing = false;
-      if(this.marker != "" && this.shadowRoot.childNodes.length > 0){
-        let markerHTML = `<span class="marker">${this.marker}</span>`;
-        let marker = WTVRElement.createElement(html(markerHTML));
-        this.shadowRoot.childNodes[this.shadowRoot.childNodes.length - 1].appendChild(marker);
+      let marker = this.shadowRoot.querySelector(".invisible-marker");
+      if(marker != null){
+        marker.classList.remove("invisible-marker");
+        marker.classList.add("marker");
       }
+
 
       let event = new CustomEvent("end", {detail: {}});
       this.dispatchEvent(event);
