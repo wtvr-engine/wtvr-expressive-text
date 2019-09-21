@@ -1,4 +1,4 @@
-import WTVRElement from "./wtvr_components/wtvr-element.js";
+import WTVRElement from "./wtvr_modules/wtvr-element.js";
 let html = WTVRElement.createTemplate;
 
 let elementStyle = html`
