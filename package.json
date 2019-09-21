@@ -17,5 +17,6 @@
   "license": "MIT",
   "dependencies": {
     "wtvr-element": "git+https://github.com/wtvr-engine/wtvr-element.git"
-  }
+  },
+  "wtvr-module":true
 }
