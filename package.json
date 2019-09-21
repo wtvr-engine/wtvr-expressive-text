@@ -4,7 +4,8 @@
   "description": "A text element that displays progressively and allows expressiveness through rhythm and tone-inducing decorations.",
   "main": "wtvr-expressive-text.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node ./node_modules/wtvr-cli/wtvr-cli.js flatten"
   },
   "keywords": [
     "wtvr",
@@ -16,7 +17,8 @@
   "author": "John Tiesselune <tiesse@wtvr.games>",
   "license": "MIT",
   "dependencies": {
+    "wtvr-cli": "git+https://github.com/wtvr-engine/wtvr-cli.git",
     "wtvr-element": "git+https://github.com/wtvr-engine/wtvr-element.git"
   },
-  "wtvr-module":true
+  "wtvr-module": true
 }
