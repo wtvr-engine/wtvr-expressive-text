@@ -1,4 +1,5 @@
 import WTVRElement from "./wtvr_modules/wtvr-element/wtvr-element.js";
+import WTVRDataStore from "./wtvr_modules/wtvr-data-store/wtvr-data-store.js";
 let html = WTVRElement.createTemplate;
 
 let elementStyle = html`
@@ -105,7 +106,9 @@ let elementStyle = html`
 </style>`;
 
 let coreTemplate = html`<span class="visible"></span><span class="invisible"></span>`
+customElements.define("wtvr-expressive-text-data-store",WTVRDataStore);
 
+let dataStore = `<wtvr-expressive-text-data-store folder="wtvr-expressive-text"></wtvr-expressive-text-data-store>`
 export default class WTVRExpressiveText extends WTVRElement {
     constructor(){
         super();
@@ -126,9 +129,19 @@ export default class WTVRExpressiveText extends WTVRElement {
           children.appendChild(this.children[0]);
         }
         originalNode.appendChild(children);
+        this.dataStore = WTVRElement.createElement(dataStore).children[0];
+        this.appendChild(this.dataStore);
         this.attachShadow({mode : "open"}).appendChild(originalNode);
-
+        this.updateParameters();
     }
+
+    async updateParameters(){
+      const settings = await this.dataStore.get("settings");
+      if(settings){
+        this.interval = settings.interval;
+      }
+    }
+
     connectedCallback(){
       let children = Array.from(this.shadowRoot.childNodes);
 

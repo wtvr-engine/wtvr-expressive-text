@@ -5,7 +5,7 @@
   "main": "wtvr-expressive-text.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "flatten": "node ./node_modules/wtvr-cli/wtvr-cli.js flatten"
+    "serve": "node ./node_modules/wtvr-cli/wtvr-cli.js serve"
   },
   "keywords": [
     "wtvr",
@@ -17,6 +17,7 @@
   "author": "John Tiesselune <tiesse@wtvr.games>",
   "license": "MIT",
   "dependencies": {
+    "wtvr-data-store": "git+https://github.com/wtvr-engine/wtvr-data-store.git",
     "wtvr-element": "git+https://github.com/wtvr-engine/wtvr-element.git"
   },
   "devDependencies": {
