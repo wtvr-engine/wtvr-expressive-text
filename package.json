@@ -23,7 +23,7 @@
     "wtvr-cli": "git+https://github.com/wtvr-engine/wtvr-cli.git"
   },
   "wtvr-module": {
-    "files" : [
+    "files": [
       "wtvr-expressive-text.js"
     ]
   }
