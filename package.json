@@ -17,8 +17,10 @@
   "author": "John Tiesselune <tiesse@wtvr.games>",
   "license": "MIT",
   "dependencies": {
-    "wtvr-cli": "git+https://github.com/wtvr-engine/wtvr-cli.git",
     "wtvr-element": "git+https://github.com/wtvr-engine/wtvr-element.git"
+  },
+  "devDependencies": {
+    "wtvr-cli": "git+https://github.com/wtvr-engine/wtvr-cli.git"
   },
   "wtvr-module": {
     "files" : [
