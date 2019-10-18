@@ -106,9 +106,8 @@ let elementStyle = html`
 </style>`;
 
 let coreTemplate = html`<span class="visible"></span><span class="invisible"></span>`
-customElements.define("wtvr-expressive-text-data-store",WTVRDataStore);
 
-let dataStore = `<wtvr-expressive-text-data-store folder="wtvr-expressive-text"></wtvr-expressive-text-data-store>`
+let dataStore = `<wtvr-data-store folder="wtvr-expressive-text"></wtvr-data-store>`
 export class WTVRExpressiveText extends WTVRElement {
     constructor(){
         super();
