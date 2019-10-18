@@ -5,7 +5,7 @@
   "main": "wtvr-expressive-text.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "node ./node_modules/wtvr-cli/wtvr-cli.js serve"
+    "start": "es-dev-server --app-index demo.html --node-resolve --open --watch"
   },
   "keywords": [
     "wtvr",
@@ -21,11 +21,6 @@
     "wtvr-element": "git+https://github.com/wtvr-engine/wtvr-element.git"
   },
   "devDependencies": {
-    "wtvr-cli": "git+https://github.com/wtvr-engine/wtvr-cli.git"
-  },
-  "wtvr-module": {
-    "files": [
-      "wtvr-expressive-text.js"
-    ]
+    "es-dev-server": "^1.18.4"
   }
 }
