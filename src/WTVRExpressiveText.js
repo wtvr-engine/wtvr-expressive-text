@@ -10,10 +10,6 @@ let styles = `
 .special {
   color : var(--specialColor);
 }
-
-.invisible {
-    color : rgba(0,0,0,0)
-}
 .inline-block {
   display: inline-block;
 }
@@ -97,10 +93,6 @@ let styles = `
   margin-left: 0.5em;
   animation : markerAnim 0.8s infinite alternate ease-in-out;
 }
-.invisible-marker{
-  margin-left: 0.5em;
-  opacity : 0;
-}
 `;
 let existingElements = [];
 let stylesCounter = 0; 
@@ -142,6 +134,16 @@ export function injectStyles(injectedStyles){
 
 let coreTemplate = html`<span class="visible"></span><span class="invisible"></span>`
 
+let invisibleClass = html`<style>
+.invisible {
+  color : rgba(0,0,0,0);
+} 
+.invisible-marker{
+  margin-left: 0.5em;
+  opacity : 0;
+} 
+</style>`;
+
 let dataStore = `<wtvr-data-store folder="wtvr-expressive-text"></wtvr-data-store>`
 export class WTVRExpressiveText extends WTVRElement {
     constructor(){
@@ -158,6 +160,7 @@ export class WTVRExpressiveText extends WTVRElement {
         this.getNumberAttribute("delay",0);
         this.getStringAttribute("marker","&#10097;");
         let originalNode = document.createDocumentFragment();
+        originalNode.appendChild(WTVRElement.createElement(invisibleClass));
         this.styles = createStyles();
         originalNode.appendChild(this.styles);
         let children = document.createDocumentFragment();
