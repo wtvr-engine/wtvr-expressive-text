@@ -1,10 +1,8 @@
 import { WTVRElement } from "wtvr-element";
-import { WTVRDataStore } from "wtvr-data-store";
+import { } from "wtvr-data-store";
 let html = WTVRElement.createTemplate;
 
-let elementStyle = html`
-<style>
-
+let styles = `
 :root {
   --specialColor: #008121;
 }
@@ -103,7 +101,44 @@ let elementStyle = html`
   margin-left: 0.5em;
   opacity : 0;
 }
-</style>`;
+`;
+let existingElements = [];
+let stylesCounter = 0; 
+let currentURL = "";
+function createStyles(){
+  if(currentURL == ""){
+    let styleBlob = new Blob([styles],{ type : 'text/css'});
+    currentURL = URL.createObjectURL(styleBlob);
+  }
+  let styleElement = document.createElement("link");
+  styleElement.setAttribute("rel","stylesheet");
+  styleElement.setAttribute("type","text/css");
+  styleElement.setAttribute("href",currentURL);
+  stylesCounter++;
+  return styleElement;
+}
+
+function revokeStyles(){
+  stylesCounter--;
+  if(stylesCounter <= 0){
+    URL.revokeObjectURL(currentURL);
+  }
+}
+
+export function injectStyles(injectedStyles){
+  styles += "\n" + injectedStyles;
+  if(currentURL != ""){
+    URL.revokeObjectURL(currentURL);
+    currentURL = "";
+    stylesCounter = 0;
+  }
+  let styleBlob = new Blob([styles],{ type : 'text/css'});
+  currentURL = URL.createObjectURL(styleBlob);
+  existingElements.forEach((elem) => {
+    elem._updateStyles(currentURL);
+    stylesCounter++;
+  })
+}
 
 let coreTemplate = html`<span class="visible"></span><span class="invisible"></span>`
 
@@ -122,7 +157,9 @@ export class WTVRExpressiveText extends WTVRElement {
         this.getNumberAttribute("interval",18);
         this.getNumberAttribute("delay",0);
         this.getStringAttribute("marker","&#10097;");
-        let originalNode = WTVRElement.createElement(elementStyle);
+        let originalNode = document.createDocumentFragment();
+        this.styles = createStyles();
+        originalNode.appendChild(this.styles);
         let children = document.createDocumentFragment();
         while(this.children.length > 0){
           children.appendChild(this.children[0]);
@@ -132,6 +169,11 @@ export class WTVRExpressiveText extends WTVRElement {
         this.appendChild(this.dataStore);
         this.attachShadow({mode : "open"}).appendChild(originalNode);
         this.updateParameters();
+        existingElements.push(this);
+    }
+
+    _updateStyles(stylesURL){
+      this.styles.setAttribute("href",stylesURL);
     }
 
     async updateParameters(){
@@ -333,5 +375,10 @@ export class WTVRExpressiveText extends WTVRElement {
         this.nextInterval = -1;
         this.update(0.2);
       }
+    }
+
+    disconnectedCallback(){
+      existingElements.splice(existingElements.indexOf(this),1);
+      revokeStyles();
     }
 }
