@@ -198,6 +198,9 @@ export class WTVRExpressiveText extends WTVRElement {
         this.shadowRoot.childNodes[this.shadowRoot.childNodes.length - 1].appendChild(marker);
       }
       super.connectedCallback();
+      if(this.parentNode.requestUpdate){
+        this.parentNode.requestUpdate();
+      }
     }
     start(){
         super.start();
