@@ -114,6 +114,7 @@ function revokeStyles(){
   stylesCounter--;
   if(stylesCounter <= 0){
     URL.revokeObjectURL(currentURL);
+    currentURL = "";
   }
 }
 
