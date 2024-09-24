@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "A text element that displays progressively and allows expressiveness through rhythm and tone-inducing decorations.",
   "main": "wtvr-expressive-text.js",
+  "type":"module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "es-dev-server --app-index demo.html --node-resolve --open --watch"
