@@ -21,6 +21,15 @@
     "wtvr-element": "git+https://github.com/wtvr-engine/wtvr-element.git"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.3.0",
     "es-dev-server": "^1.18.4"
-  }
+  },
+  "bundledDependencies": [
+    "wtvr-data-store",
+    "wtvr-element"
+  ],
+  "bundleDependencies": [
+    "wtvr-data-store",
+    "wtvr-element"
+  ]
 }
