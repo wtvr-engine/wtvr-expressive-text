@@ -1,4 +1,4 @@
-import WTVRElement from "wtvr-element";
+import {WTVRElement} from "wtvr-element";
 import { } from "wtvr-data-store";
 let html = WTVRElement.createTemplate;
 
